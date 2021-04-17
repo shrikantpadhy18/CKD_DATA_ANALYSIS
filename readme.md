@@ -3,7 +3,7 @@
 <html>
 <img src="./anemiavsckd.png">
 <br>
-<img src="./bloodglucoseckd.jpg">
+<img src="./bgrvsckd.png">
 <br>
 <img src="./ckdvsagegrp.png">
 <br>
