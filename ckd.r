@@ -35,6 +35,21 @@ temp$bgr[which(is.na(temp$bgr))]<- mean(temp$bgr,na.rm = TRUE)
 temp$bu[which(is.na(temp$bu))]<- mean(temp$bu,na.rm = TRUE)
 temp$age[which(is.na(temp$age))]<- mean(temp$age,na.rm = TRUE)
 temp$pe[which(is.na(temp$pe))]<- 1
+
+
+#confusion matrix
+
+table(temp$classification)
+mymodel=glm(classification~bgr+bu+ane+pe+dm+cad,family = binomial(link = "logit"),data=temp)
+pymodel=predict(mymodel,temp)
+#confusion matrix
+tab=table(pymodel>0.5,temp$classification)
+tab
+
+accuracy=sum(diag(tab))/sum(tab)*100
+accuracy
+
+
 #estimate the data frame that will have all the count of  distinct ages(group by)
 
 agesbycountwithckd<- temp %>% filter(classification==1) %>% group_by(age) %>% summarize(n())
