@@ -6,6 +6,7 @@ setwd("C:/Users/shrikant padhy/Desktop/ckddataset")
 
 mydata1 <- read.csv("kidney_disease.csv")
 mydata2 <- read.csv("ckd_clean.csv")
+
 #mydata1 <- merge(mydata1,mydata2,by=c('age','bp','sg','al','su','rbc','pc','pcc','ba','bgr','bu','sc','sod','pot','hemo','pcv','wc','rc','htn','dm','cad','appet','pe','ane','classification'))
 #summary stats for all variables in dataset
 
@@ -40,8 +41,12 @@ temp$pe[which(is.na(temp$pe))]<- 1
 #confusion matrix
 
 table(temp$classification)
-mymodel=glm(classification~bgr+bu+ane+pe+dm+cad,family = binomial(link = "logit"),data=temp)
+mymodel=glm(classification~bgr+bu+ane+pe+dm+cad+age,family = binomial(link = "logit"),data=temp)
 pymodel=predict(mymodel,temp)
+pymodel
+
+
+
 #confusion matrix
 tab=table(pymodel>0.5,temp$classification)
 tab
@@ -140,5 +145,12 @@ ggplot(cdisease,aes(x=cad,y=counts))+geom_point(aes(fill=cad))+stat_smooth(metho
 #coronary artery disease is the leading cause of mortality in patients with ckd
 
 
+#prediction:
 
+#create a new matrix  with new data for testing ,we will use 6 attributes
+new.data<- as.data.frame(matrix(c(120,34,1,0,0,0,10),nrow=1))
+#give it column names
+colnames(new.data)<- c("bgr","bu","ane","pe","dm","cad","age")
+#new.data
+predict.glm(mymodel,newdata=new.data,type = "response")
 
